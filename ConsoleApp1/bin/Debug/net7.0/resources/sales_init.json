@@ -1,0 +1,100 @@
+﻿[
+  {
+    "Id": 1,
+    "Apartment": 1,
+	"Date": '2022-04-01',
+	"Realtor": 1,
+	"Price": 2350000.0
+  }, 
+  {
+    "Id": 2,
+    "Apartment": 2,
+	"Date": '2022-04-01',
+	"Realtor": 1,
+	"Price": 12000000.0
+  },
+  {
+    "Id": 3,
+    "Apartment": 3,
+	"Date": '2022-04-01',
+	"Realtor": 1,
+	"Price": 10000000.0
+  },
+  {
+    "Id": 4,
+    "Apartment": 4,
+	"Date": '2022-04-10',
+	"Realtor": 1,
+	"Price": 24000000.0
+  },
+  {
+    "Id": 5,
+    "Apartment": 5,
+	"Date": '2023-04-01',
+	"Realtor": 2,
+	"Price": 6000000.0
+  },
+  {
+    "Id": 6,
+    "Apartment": 6,
+	"Date": '2023-04-01',
+	"Realtor": 2,
+	"Price": 7200000.0
+  },
+  {
+    "Id": 7,
+    "Apartment": 7,
+	"Date": '2023-04-01',
+	"Realtor": 2,
+	"Price": 4005000.0
+  },
+  {
+    "Id": 8,
+    "Apartment": 8,
+	"Date": '2023-04-01',
+	"Realtor": 3,
+	"Price": 8000000.0
+  },
+  {
+    "Id": 9,
+    "Apartment": 9,
+	"Date": '2023-04-01',
+	"Realtor": 3,
+	"Price": 12600000.0
+  },
+  {
+    "Id": 10,
+    "Apartment": 10,
+	"Date": '2023-04-01',
+	"Realtor": 3,
+	"Price": 90000000.0
+  },
+  {
+    "Id": 11,
+    "Apartment": 11,
+	"Date": '2023-04-01',
+	"Realtor": 3,
+	"Price": 15000000.0
+  },
+  {
+    "Id": 12,
+    "Apartment": 12,
+	"Date": '2023-04-01',
+	"Realtor": 4,
+	"Price": 4000000.0
+  },
+  {
+    "Id": 13,
+    "Apartment": 16,
+	"Date": '2023-04-01',
+	"Realtor": 3,
+	"Price": 2700000.0
+  },
+  {
+    "Id": 14,
+    "Apartment": 17,
+	"Date": '2023-04-05',
+	"Realtor": 4,
+	"Price": 17000000.0
+  }
+]

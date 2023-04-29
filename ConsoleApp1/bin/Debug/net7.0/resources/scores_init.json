@@ -1,0 +1,79 @@
+﻿[
+  {
+    "Id": 1,
+    "Apartment": 1,
+	"Date": '2023-01-01',
+	"Criteria": 1,
+	"Value": 0.5
+  },
+  {
+    "Id": 2,
+    "Apartment": 1,
+	"Date": '2022-12-01',
+	"Criteria": 2,
+	"Value": 3.0
+  },
+  {
+    "Id": 3,
+    "Apartment": 1,
+	"Date": '2022-11-04',
+	"Criteria": 3,
+	"Value": 5.0
+  },
+  {
+    "Id": 4,
+    "Apartment": 1,
+	"Date": '2023-03-01',
+	"Criteria": 4,
+	"Value": 4.5
+  },
+  {
+    "Id": 5,
+    "Apartment": 2,
+	"Date": '2022-02-10',
+	"Criteria": 1,
+	"Value": 4.5
+  },
+  {
+    "Id": 6,
+    "Apartment": 2,
+	"Date": '2022-04-20',
+	"Criteria": 2,
+	"Value": 4.0
+  },
+  {
+    "Id": 7,
+    "Apartment": 2,
+	"Date": '2023-03-01',
+	"Criteria": 3,
+	"Value": 5.0
+  },
+  {
+    "Id": 8,
+    "Apartment": 2,
+	"Date": '2022-07-01',
+	"Criteria": 4,
+	"Value": 4.3
+  },
+  {
+    "Id": 9,
+    "Apartment": 3,
+	"Date": '2022-05-10',
+	"Criteria": 1,
+	"Value": 4.5
+  },
+  {
+    "Id": 10,
+    "Apartment": 3,
+	"Date": '2023-02-12',
+	"Criteria": 2,
+	"Value": 4.5
+  },
+  {
+    "Id": 11,
+    "Apartment": 4,
+	"Date": '2022-10-10',
+	"Criteria": 1,
+	"Value": 3.0
+  }
+]
