@@ -449,7 +449,7 @@ namespace ConsoleApp1.Utils
             var list = new List<string>();
             using (ApplicationContext db = new ApplicationContext())
             {
-                /*var result = db.Apartment.Join(db.District,
+               /* var result = db.Apartment.Join(db.District,
                     a => a.District,
                     b => b.Id,
                     (a, b) => new
@@ -465,13 +465,160 @@ namespace ConsoleApp1.Utils
                     .OrderBy(el => new { el.Price, el.Floor })
                     .ToList();
                 if (result.Count == 0) return list;
-                result.ForEach(r => list.Add("Материал: " + r.Material + ", Средняя стоимость: " + r.AvgPrice));
-                */
+                result.ForEach(r => list.Add("Материал: " + r.Material + ", Средняя стоимость: " + r.AvgPrice));*/
+                return list;
+            }
+        }
+
+        /*
+         * 14. Определить адреса квартир, расположенных в указанном районе, которые
+         * еще не проданы.
+         */
+        public List<string> GetApartmentsInDistNotSold(string district)
+        {
+            var list = new List<string>();
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                var result = db.Apartment
+                    .Join(db.District,
+                    a => a.District,
+                    b => b.Id,
+                    (a, b) => new
+                    {
+                        Address = a.Address,
+                        District = b.Name,
+                        Status = a.Status
+                    })
+                    .Where(el => el.Status.Equals(1) && el.District.Equals(district))
+                    .ToList();
+                if (result.Count == 0) return list;
+                result.ForEach(r => list.Add("Адрес: " + r.Address));
+                return list;
+            }
+        }
+
+        /*
+      * 15. Вывести информацию об объектах недвижимости, у которых разница
+между заявленной и продажной стоимостью составляет не более 20 % и
+расположенных в указанном районе
+      */
+        public List<string> GetApartmentsLessThan20InDisrtict(string district)
+        {
+            var list = new List<string>();
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                var result = db.Sale
+                    .Join(db.Apartment,
+                    a => a.Apartment,
+                    b => b.Id,
+                    (a, b) => new
+                    {
+                        Address = b.Address,
+                        District = b.District,
+                        Diff = (a.Price - b.Price) * 100 / a.Price
+                    })
+                    .Join(db.District,
+                    a => a.District,
+                    b => b.Id,
+                    (a, b) => new
+                    {
+                        Address = a.Address,
+                        District = b.Name,
+                        Diff = a.Diff
+                    })
+                    .Where(el => el.Diff <= 20 && el.District.Equals(district))
+                    .ToList();
+                if (result.Count == 0) return list;
+                result.ForEach(r => list.Add("Адрес: " + r.Address + ", Район: " + r.District));
                 return list;
             }
         }
 
 
+        /*
+       * 16. Вывести информацию об объектах недвижимости, у которых разница
+между заявленной и продажной стоимостью составляет больше 100000 рублей и
+проданную указанным риэлтором
+       */
+        public List<string> GetApartmentsWithDiffMoreThan(string realtor)
+        {
+            var list = new List<string>();
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                var result = db.Sale.Join(db.Realtor,
+                    a => a.Realtor,
+                    b => b.Id,
+                    (a, b) => new
+                    {
+                        L = b.LastName,
+                        Apartment = a.Apartment,
+                        SalePrice = a.Price
+                    })
+                    .Join(db.Apartment,
+                    a => a.Apartment,
+                    b => b.Id,
+                    (a, b) => new
+                    {
+                        L = a.L,
+                        Address = b.Address,
+                        District = b.District,
+                        Diff = a.SalePrice - b.Price
+                    })
+                    .Join(db.District,
+                    a => a.District,
+                    b => b.Id,
+                    (a, b) => new
+                    {
+                        L = a.L,
+                        Address = a.Address,
+                        District = b.Name,
+                        Diff = a.Diff
+                    })
+                    .Where(el => el.L.Equals(realtor) && Math.Abs(el.Diff) > 100000)
+                    .ToList();
+                if (result.Count == 0) return list;
+                result.ForEach(r => list.Add("Адрес: " + r.Address + ", Район: " + r.District));
+                return list;
+            }
+        }
+
+
+        /*
+        * 17. Вывести разницу в % между заявленной и продажной стоимостью для
+объектов недвижимости, проданных указанным риэлтором в текущем году
+        */
+        public List<string> GetDiffInSaleByRealtorAndYear(string realtor, int year)
+        {
+            var list = new List<string>();
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                var result = db.Sale.Join(db.Realtor,
+                    a => a.Realtor,
+                    b => b.Id,
+                    (a, b) => new
+                    {
+                        L = b.LastName,
+                        Year = a.Date.Year,
+                        Apartment = a.Apartment,
+                        SalePrice = a.Price
+                    })
+                    .Join(db.Apartment,
+                    a => a.Apartment,
+                    b => b.Id,
+                    (a, b) => new
+                    {
+                        L = a.L,
+                        Year = a.Year,
+                        Address = b.Address,
+                        Diff = Math.Round((a.SalePrice - b.Price) * 100 / a.SalePrice, 2)
+                    })
+                    .Where(el => el.L.Equals(realtor) && el.Year.Equals(year))
+                    .ToList();
+                if (result.Count == 0) return list;
+                result.ForEach(r => list.Add("Адрес: " + r.Address + ", Разница: " + r.Diff + '%'));
+                return list;
+            }
+        }
 
 
         /*
@@ -535,6 +682,52 @@ namespace ConsoleApp1.Utils
 
                 return list;
             }
+        }
+
+        /*
+         * 20. Вывести адреса объектов недвижимости, стоимость 1м2 которых меньше
+средней всех объектов недвижимости по району, объявления о которых были
+размещены не более 4 месяцев назад.
+         */
+        public List<string> GetApartmentsWithPriceLessThanAgerageByDistAndEarlierThan4Month()
+        {
+            var list = new List<string>();
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                var now = DateOnly.FromDateTime(DateTime.Now);
+                var result = db.Apartment
+                .Where(row => ((row.Price / row.Area) <
+                (db.Apartment
+                    .Select(
+                    a => new
+                    {
+                        Address = a.Address,
+                        District = a.District,
+                        PriceM2 = a.Price / a.Area,
+                        Status = a.Status.ToString()
+                    })
+                    .Where(el => el.District.Equals(row.District))
+                    .Average(r => r.PriceM2)
+                )))
+                .ToList();
+                var res = result.Where(row => ((now.Year - row.Date.Year) * 12) + now.Month - row.Date.Month <= 4).ToList();
+                var maxLength = 0;
+                res.ForEach(r => maxLength = r.Address.Length > maxLength ? r.Address.Length : maxLength);
+                list.Add(Format("Адрес", "Статус", maxLength));
+                res.ForEach(r => list.Add(Format(r.Address, r.Status.Equals(1) ? "в продаже" : "продано", maxLength)));
+                return list;
+            }
+        }
+
+        private string Format(string a, int maxLength)
+        {
+            var len = (maxLength - a.Length + 6) / 2;
+            return new string(' ', len) + a + new string(' ', a.Length % 2 == 0 ? len + 1 : len);
+        }
+
+        private string Format(string a, string b, int maxLength)
+        {
+            return Format(a, maxLength) + '|' + Format(b, 9);
         }
     }
 }

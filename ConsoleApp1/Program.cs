@@ -100,11 +100,36 @@ namespace ConsoleApp1
                         requests.GetAvgPriceByTypeAndMaterial(floor).ForEach(Console.WriteLine);
                         break;
 
+                    case 14:
+                        Console.WriteLine("Район:");
+                        name = Console.ReadLine();
+                        requests.GetApartmentsInDistNotSold(name).ForEach(Console.WriteLine);
+                        break;
+                    case 15:
+                        Console.WriteLine("Район:");
+                        name = Console.ReadLine();
+                        requests.GetApartmentsLessThan20InDisrtict(name).ForEach(Console.WriteLine);
+                        break;
+                    case 16:
+                        Console.WriteLine("Риэлтор:");
+                        name = Console.ReadLine();
+                        requests.GetApartmentsWithDiffMoreThan(name).ForEach(Console.WriteLine);
+                        break;
+                    case 17:
+                        Console.WriteLine("Риэлтор:");
+                        name = Console.ReadLine();
+                        Console.WriteLine("Год:");
+                        var year = int.Parse(Console.ReadLine());
+                        requests.GetDiffInSaleByRealtorAndYear(name, year).ForEach(Console.WriteLine);
+                        break;
                     case 18:
                         requests.GetApartmentsWithPriceLessThanAgerageBuDist().ForEach(Console.WriteLine);
                         break;
                     case 19:
                         requests.GetRealtorsWithoutSalesThisYear().ForEach(Console.WriteLine);
+                        break;
+                    case 20:
+                        requests.GetApartmentsWithPriceLessThanAgerageByDistAndEarlierThan4Month().ForEach(Console.WriteLine);
                         break;
                 }
                 Console.WriteLine("\n");
