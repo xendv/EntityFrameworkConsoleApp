@@ -1,16 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ConsoleApp1.Models;
-using Microsoft.EntityFrameworkCore;
-using System.Collections;
-using Microsoft.EntityFrameworkCore.Migrations.Operations;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-using System.Timers;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace ConsoleApp1.Utils
 {
@@ -86,7 +74,7 @@ namespace ConsoleApp1.Utils
         }
 
         /*
-         * Вывести разницу между заявленной и продажной стоимостью объектов
+         * 3. Вывести разницу между заявленной и продажной стоимостью объектов
 недвижимости, расположенных на 2 этаже
          */
         public List<string> GetDiffInPrices(int floor)
@@ -402,8 +390,8 @@ namespace ConsoleApp1.Utils
         }
 
         /*
-       * 12. Вывести информацию о средней стоимости объектов недвижимости, расположенных на 2 этаже по каждому материалу здания
-       */
+         * 12. Вывести информацию о средней стоимости объектов недвижимости, расположенных на 2 этаже по каждому материалу здания
+         */
         public List<string> GetAvgPriceByTypeAndMaterial(int floor)
         {
             var list = new List<string>();
@@ -442,30 +430,31 @@ namespace ConsoleApp1.Utils
         }
 
         /*
-      * 13. Вывести информацию о трех самых дорогих объектах недвижимости, расположенных в каждом районе
-      */
+         * 13. Вывести информацию о трех самых дорогих объектах недвижимости, расположенных в каждом районе
+         */
         public List<string> GetTop5ByPriceInDists()
         {
             var list = new List<string>();
             using (ApplicationContext db = new ApplicationContext())
             {
-               /* var result = db.Apartment.Join(db.District,
-                    a => a.District,
-                    b => b.Id,
+                var result = db.District.Join(db.Apartment,
+                    a => a.Id,
+                    b => b.District,
                     (a, b) => new
                     {
-                        Apartment = a.Id,
-                        Floor = a.Floor,
-                        Address = a.Address,
-                        District = b.Name,
-                        Price = a.Price
+                        Floor = b.Floor,
+                        Address = b.Address,
+                        District = a.Name,
+                        Price = b.Price
                     })
-                    .GroupBy(el => el.District)
-                    .Select(g => new { District = g.Key, })
-                    .OrderBy(el => new { el.Price, el.Floor })
                     .ToList();
-                if (result.Count == 0) return list;
-                result.ForEach(r => list.Add("Материал: " + r.Material + ", Средняя стоимость: " + r.AvgPrice));*/
+                var res = result
+                    .OrderByDescending(el => el.District).ThenBy(el => el.Price).ThenByDescending(el => el.Floor)
+                    .GroupBy(c => c.District)
+                    .SelectMany(g => g.Take(3))
+                    .ToList();
+                if (res.Count == 0) return list;
+                res.ForEach(r => list.Add("Район: " + r.District + ", Адрес: " + r.Address + ", Стоимость: " + r.Price + ", Этаж: " + r.Floor));
                 return list;
             }
         }
@@ -498,10 +487,10 @@ namespace ConsoleApp1.Utils
         }
 
         /*
-      * 15. Вывести информацию об объектах недвижимости, у которых разница
-между заявленной и продажной стоимостью составляет не более 20 % и
-расположенных в указанном районе
-      */
+         * 15. Вывести информацию об объектах недвижимости, у которых разница
+         * между заявленной и продажной стоимостью составляет не более 20 % и
+         * расположенных в указанном районе
+         */
         public List<string> GetApartmentsLessThan20InDisrtict(string district)
         {
             var list = new List<string>();
@@ -536,10 +525,10 @@ namespace ConsoleApp1.Utils
 
 
         /*
-       * 16. Вывести информацию об объектах недвижимости, у которых разница
-между заявленной и продажной стоимостью составляет больше 100000 рублей и
-проданную указанным риэлтором
-       */
+         * 16. Вывести информацию об объектах недвижимости, у которых разница
+         * между заявленной и продажной стоимостью составляет больше 100000 рублей и
+         * проданную указанным риэлтором
+         */
         public List<string> GetApartmentsWithDiffMoreThan(string realtor)
         {
             var list = new List<string>();
@@ -585,7 +574,7 @@ namespace ConsoleApp1.Utils
 
         /*
         * 17. Вывести разницу в % между заявленной и продажной стоимостью для
-объектов недвижимости, проданных указанным риэлтором в текущем году
+        * объектов недвижимости, проданных указанным риэлтором в текущем году
         */
         public List<string> GetDiffInSaleByRealtorAndYear(string realtor, int year)
         {
@@ -686,8 +675,8 @@ namespace ConsoleApp1.Utils
 
         /*
          * 20. Вывести адреса объектов недвижимости, стоимость 1м2 которых меньше
-средней всех объектов недвижимости по району, объявления о которых были
-размещены не более 4 месяцев назад.
+         * средней всех объектов недвижимости по району, объявления о которых были
+         * размещены не более 4 месяцев назад.
          */
         public List<string> GetApartmentsWithPriceLessThanAgerageByDistAndEarlierThan4Month()
         {

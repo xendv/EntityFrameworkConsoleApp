@@ -1,0 +1,30 @@
+﻿[
+  {
+    "Id": 1,
+    "LastName": "Михайлов",
+	"MiddleName": "Петрович",
+	"FirstName": "Алексей",
+	"Phone": "79135869384"
+  },
+  {
+    "Id": 2,
+    "LastName": "Перепелицина",
+	"MiddleName": "Евгеньевна",
+	"FirstName": "Екатерина",
+	"Phone": "79160357285"
+  },
+  {
+    "Id": 3,
+    "LastName": "Жёлтый",
+	"MiddleName": "Валерьевич",
+	"FirstName": "Евгений",
+	"Phone": "73561237385"
+  },
+  {
+    "Id": 4,
+    "LastName": "Генеральный",
+	"MiddleName": "Алексеевич",
+	"FirstName": "Семён",
+	"Phone": "71272345678"
+  }
+]

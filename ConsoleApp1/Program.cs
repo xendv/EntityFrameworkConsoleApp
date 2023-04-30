@@ -1,6 +1,4 @@
-﻿using ConsoleApp1.Models;
-using ConsoleApp1.Utils;
-using System.Runtime.ConstrainedExecution;
+﻿using ConsoleApp1.Utils;
 
 namespace ConsoleApp1
 {
@@ -21,6 +19,10 @@ namespace ConsoleApp1
                 Console.WriteLine("\n");
                 switch (choice)
                 {
+                    case -1:
+                        RefillDb();
+                        Console.WriteLine("БД обновлена по содержимому файлов");
+                        break;
                     case 0:
                         Environment.Exit(0);
                         break;
@@ -99,7 +101,9 @@ namespace ConsoleApp1
                         floor = int.Parse(Console.ReadLine());
                         requests.GetAvgPriceByTypeAndMaterial(floor).ForEach(Console.WriteLine);
                         break;
-
+                    case 13:
+                        requests.GetTop5ByPriceInDists().ForEach(Console.WriteLine);
+                        break;
                     case 14:
                         Console.WriteLine("Район:");
                         name = Console.ReadLine();
@@ -136,6 +140,12 @@ namespace ConsoleApp1
             }
         }
 
+        private static void RefillDb()
+        {
+            ClearDb();
+            InitDb();
+        }
+
         private static void InitDb()
         {
             using (ApplicationContext db = new ApplicationContext())
@@ -169,20 +179,6 @@ namespace ConsoleApp1
             }
         }
 
-
-        private static void readAll(string Type)
-        {
-            using (ApplicationContext db = new ApplicationContext())
-            {
-                var districts = db.District.ToList();
-                Console.WriteLine("District list:");
-                foreach (District d in districts)
-                {
-                    Console.WriteLine($"{d.Id}.{d.Name}");
-                }
-            }
-        }
-
         private static void PrintTasks()
         {
             Console.WriteLine("1. Вывести объекты недвижимости, расположенные в указанном районе стоимостью «ОТ» и «ДО»");
@@ -205,6 +201,8 @@ namespace ConsoleApp1
             Console.WriteLine("18. Определить адреса квартир, стоимость 1м2 которых меньше средней по району");
             Console.WriteLine("19. Определить ФИО риэлторов, которые ничего не продали в текущем году");
             Console.WriteLine("20. Вывести адреса объектов недвижимости, стоимость 1м2 которых меньше средней всех объектов недвижимости по району, объявления о которых были размещены не более 4 месяцев назад");
+            Console.WriteLine("\n");
+            Console.WriteLine("-1 - Перезаписать БД по изменениям в json-файлах");
             Console.WriteLine("0 - Выход");
         }
     }
