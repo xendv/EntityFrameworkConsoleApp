@@ -448,10 +448,11 @@ namespace ConsoleApp1.Utils
                         Price = b.Price
                     })
                     .ToList();
-                var res = result
-                    .OrderByDescending(el => el.District).ThenBy(el => el.Price).ThenByDescending(el => el.Floor)
+                var res = result //вылетает, если разделить
+                    .OrderByDescending(el => el.District).ThenByDescending(el => el.Price)//.ThenByDescending(el => el.Floor)
                     .GroupBy(c => c.District)
                     .SelectMany(g => g.Take(3))
+                    .OrderBy(el => el.District).ThenBy(el => el.Price).ThenByDescending(el => el.Floor)
                     .ToList();
                 if (res.Count == 0) return list;
                 res.ForEach(r => list.Add("Район: " + r.District + ", Адрес: " + r.Address + ", Стоимость: " + r.Price + ", Этаж: " + r.Floor));
@@ -698,12 +699,11 @@ namespace ConsoleApp1.Utils
                     .Where(el => el.District.Equals(row.District))
                     .Average(r => r.PriceM2)
                 )))
-                .ToList();
-                var res = result.Where(row => ((now.Year - row.Date.Year) * 12) + now.Month - row.Date.Month <= 4).ToList();
+                .Where(row => ((now.Year - row.Date.Year) * 12) + now.Month - row.Date.Month <= 4).ToList();
                 var maxLength = 0;
-                res.ForEach(r => maxLength = r.Address.Length > maxLength ? r.Address.Length : maxLength);
+                result.ForEach(r => maxLength = r.Address.Length > maxLength ? r.Address.Length : maxLength);
                 list.Add(Format("Адрес", "Статус", maxLength));
-                res.ForEach(r => list.Add(Format(r.Address, r.Status.Equals(1) ? "в продаже" : "продано", maxLength)));
+                result.ForEach(r => list.Add(Format(r.Address, r.Status.Equals(1) ? "в продаже" : "продано", maxLength)));
                 return list;
             }
         }
